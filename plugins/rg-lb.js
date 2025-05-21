@@ -8,7 +8,7 @@ let handler = async (m, { conn, args, participants }) => {
     let pageSize = 10;
     let startIndex = (page - 1) * pageSize;
     let endIndex = startIndex + pageSize;
-
+    
     let totalPages = Math.ceil(sortedLevel.length / pageSize);
     let text = `◢✨ Top de usuarios con más experiencia ✨◤\n\n`;
 
@@ -21,12 +21,14 @@ let handler = async (m, { conn, args, participants }) => {
     if (page < totalPages) text += `\n> Para ver la siguiente página » *#lb ${page + 1}*`;
 
     await conn.reply(m.chat, text.trim(), m, { mentions: conn.parseMention(text) });
-};
+}
 
 handler.help = ['lb'];
 handler.tags = ['rpg'];
 handler.command = ['lboard', 'top', 'lb']; 
 handler.group = true;
-handler.register = false ;
+handler.register = true;
+handler.fail = null;
+handler.exp = 0;
 
 export default handler;
