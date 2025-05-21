@@ -25,5 +25,5 @@ handler.tags = ['rpg']
 handler.command = ['bal', 'balance', 'bank'] 
 handler.register = false 
 handler.group = true 
-
+handler.fail = null;
 export default handler
