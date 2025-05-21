@@ -1,3 +1,14 @@
+ let handler = async (m, { conn, args, participants }) => {
+    let users = Object.entries(global.db.data.users).map(([key, value]) => {
+        return { ...value, jid: key };
+    });
+
+    let sortedLevel = users.sort((a, b) => (b.exp || 0) - (a.exp || 0));
+    let page = parseInt(args[0]) || 1;
+    let pageSize = 10;
+    let startIndex = (page - 1) * pageSize;
+    let endIndex = startIndex + pageSize;
+    
     let totalPages = Math.ceil(sortedLevel.length / pageSize);
     let text = `◢✨ Top de usuarios con más experiencia ✨◤\n\n`;
 
