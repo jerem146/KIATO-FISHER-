@@ -31,8 +31,8 @@ async function getAnimeEpisodes(url) {
         }
 
         const scriptText = script.html();
-        const animeInfoMatch = scriptText.match(/var anime_info = (\[.*?\]);/);
-        const episodesMatch = scriptText.match(/var episodes = (\[.*?\]);/);
+        const animeInfoMatch = scriptText.match(/var anime_info = (.*?);/);
+        const episodesMatch = scriptText.match(/var episodes = (.*?);/);
 
         if (!animeInfoMatch || !episodesMatch) {
             throw new Error('No se encontraron las variables anime_info o episodes en el script.');
@@ -87,7 +87,6 @@ handler.help = ['animeinfo', 'animei'];
 handler.command = ['animeinfo', 'animei'];
 handler.tags = ['descargas'];
 handler.premium = true;
-handler.register = true;
 handler.group = true;
 
 export default handler;
