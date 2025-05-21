@@ -11,7 +11,7 @@
     //texto += seleccionados.map((id, i) => `*${i + 1}.* @${id.split('@')[0]}`).join('\n')
 
     //await conn.sendMessage(m.chat, { text: texto, mentions: seleccionados }, { quoted: m })
-}
+//}
 
 //handler.help = ['top <texto>']
 //handler.tags = ['fun']
