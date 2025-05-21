@@ -1,22 +1,23 @@
-let handler = async (m, { conn, participants, args }) => {
-    let titulo = args.join(" ");
-    if (!titulo) throw '✦ Escribe una categoría. Ejemplo:\n> #top simp\n> #top virgen';
+    let totalPages = Math.ceil(sortedLevel.length / pageSize);
+    let text = `◢✨ Top de usuarios con más experiencia ✨◤\n\n`;
 
-    let miembros = participants.map(p => p.id).filter(id => id !== conn.user.jid);
-    let seleccionados = miembros.sort(() => Math.random() - 0.5).slice(0, 10);
+    text += sortedLevel.slice(startIndex, endIndex).map(({ jid, exp, level }, i) => {
+        return `✰ ${startIndex + i + 1} » *${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]}*` +
+               `\n\t\t ❖ XP » *${exp}*  ❖ LVL » *${level}*`;
+    }).join('\n');
 
-    if (seleccionados.length < 1) throw '✦ No hay suficientes participantes en el grupo.';
+    text += `\n\n> • Página *${page}* de *${totalPages}*`;
+    if (page < totalPages) text += `\n> Para ver la siguiente página » *#lb ${page + 1}*`;
 
-    let texto = `✦ 𝗧𝗢𝗣 𝟭𝟬 ${titulo.toUpperCase()} ✦\n\n`;
-    texto += seleccionados.map((id, i) => `*${i + 1}.* @${id.split('@')[0]}`).join('\n');
+    await conn.reply(m.chat, text.trim(), m, { mentions: conn.parseMention(text) });
+}
 
-    await conn.sendMessage(m.chat, { text: texto, mentions: seleccionados }, { quoted: m });
-};
-
-handler.help = ['top <categoría>'];
-handler.tags = ['fun'];
-handler.command = ['top']; 
+handler.help = ['lb'];
+handler.tags = ['rpg'];
+handler.command = ['lboard', 'top', 'lb']; 
 handler.group = true;
-
+handler.register = true;
+handler.fail = null;
+handler.exp = 0;
 
 export default handler;
