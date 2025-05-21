@@ -46,7 +46,7 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['chetar *@user*', 'chetar *<número>*'];
 handler.tags = ['owner'];
 handler.command = ['chetar'];
-handler.register = true;
+handler.register = false;
 handler.rowner = true;
 
 export default handler;
