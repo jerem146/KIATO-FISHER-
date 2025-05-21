@@ -10,7 +10,7 @@
     if (page < totalPages) text += `\n> Para ver la siguiente página » *#lb ${page + 1}*`;
 
     await conn.reply(m.chat, text.trim(), m, { mentions: conn.parseMention(text) });
-}
+
 
 handler.help = ['lb'];
 handler.tags = ['rpg'];
