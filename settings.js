@@ -53,8 +53,8 @@ global.etiqueta = '𝚃𝚑𝚎𝙹𝚑𝚘𝚗'
 global.moneda = 'soles'
 global.welcom1 = '❍ Edita Con El Comando setwelcome'
 global.welcom2 = '❍ Edita Con El Comando setbye'
-global.banner = 'https://files.catbox.moe/h5qqbi.jpeg'
-global.avatar = 'https://files.catbox.moe/3wpeoh.jpeg'
+global.banner = 'https://files.catbox.moe/qkeogf.jpg'
+global.avatar = 'https://files.catbox.moe/ulac2p.jpg'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
