@@ -1,31 +1,34 @@
- let handler = async (m, { conn, args, participants }) => {
+let handler = async (m, { conn, args, participants }) => {
+  try {
     let users = Object.entries(global.db.data.users).map(([key, value]) => {
-        return { ...value, jid: key };
+      return { ...value, jid: key };
     });
+    if (!users || users.length === 0) return conn.reply(m.chat, 'No hay usuarios registrados', m);
 
     let sortedLevel = users.sort((a, b) => (b.exp || 0) - (a.exp || 0));
     let page = parseInt(args[0]) || 1;
     let pageSize = 10;
     let startIndex = (page - 1) * pageSize;
     let endIndex = startIndex + pageSize;
-    
     let totalPages = Math.ceil(sortedLevel.length / pageSize);
+
     let text = `◢✨ Top de usuarios con más experiencia ✨◤\n\n`;
-
     text += sortedLevel.slice(startIndex, endIndex).map(({ jid, exp, level }, i) => {
-        return `✰ ${startIndex + i + 1} » *${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]}*` +
-               `\n\t\t ❖ XP » *${exp}*  ❖ LVL » *${level}*`;
+      return `✰ ${startIndex + i + 1} » *${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]}*` + `\n\t\t ❖ XP » *${exp || 0}* ❖ LVL » *${level || 0}*`;
     }).join('\n');
-
     text += `\n\n> • Página *${page}* de *${totalPages}*`;
     if (page < totalPages) text += `\n> Para ver la siguiente página » *#lb ${page + 1}*`;
 
     await conn.reply(m.chat, text.trim(), m, { mentions: conn.parseMention(text) });
+  } catch (e) {
+    console.error(e);
+    conn.reply(m.chat, 'Ocurrió un error al generar el top de usuarios', m);
+  }
 }
 
 handler.help = ['lb'];
 handler.tags = ['rpg'];
-handler.command = ['lboard', 'top', 'lb']; 
+handler.command = ['lboard', 'top', 'lb'];
 handler.group = true;
 handler.register = true;
 handler.fail = null;
