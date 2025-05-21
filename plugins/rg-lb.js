@@ -8,9 +8,9 @@
     //if (seleccionados.length === 0) throw '✦ No hay suficientes participantes en este grupo.'
 
     //let texto = `✦ 𝗧𝗢𝗣 𝗗𝗘 *${categoria.toUpperCase()}*\n\n`
-    texto += seleccionados.map((id, i) => `*${i + 1}.* @${id.split('@')[0]}`).join('\n')
+    //texto += seleccionados.map((id, i) => `*${i + 1}.* @${id.split('@')[0]}`).join('\n')
 
-    await conn.sendMessage(m.chat, { text: texto, mentions: seleccionados }, { quoted: m })
+    //await conn.sendMessage(m.chat, { text: texto, mentions: seleccionados }, { quoted: m })
 }
 
 //handler.help = ['top <texto>']
