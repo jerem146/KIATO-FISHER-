@@ -6,20 +6,23 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
   if (isAdmin || isOwner || m.fromMe || isROwner) return;
 
   let chat = global.db.data.chats[m.chat];
-  let delet = m.key.participant;
-  let bang = m.key.id;
   const user = `@${m.sender.split`@`[0]}`;
   const isGroupLink = linkRegex.exec(m.text) || linkRegex1.exec(m.text);
 
   if (chat.antilink && isGroupLink && !isAdmin) {
     if (!isBotAdmin) return;
 
-    const linkThisGroup = `https://chat.whatsapp.com/${await this.groupInviteCode(m.chat)}`;
+    const linkThisGroup = `https://chat.whatsapp.com/${await conn.groupInviteCode(m.chat)}`;
     if (m.text.includes(linkThisGroup)) return true;
 
-    // Eliminar el mensaje con el link
+    // Eliminar el mensaje con el link (asegurando valores válidos)
     await conn.sendMessage(m.chat, {
-      delete: { remoteJid: m.chat, fromMe: false, id: bang, participant: delet }
+      delete: {
+        remoteJid: m.chat,
+        fromMe: m.key.fromMe,
+        id: m.key.id,
+        participant: m.key.participant || m.sender
+      }
     });
 
     // Expulsar al usuario
