@@ -28,7 +28,7 @@ handler.tags = ['rpg'];
 handler.command = ['lboard', 'top', 'lb']; 
 handler.group = true;
 handler.register = false;
-handler.fail = null;
+handler.fail = false;
 handler.exp = 0;
 
 export default handler;
