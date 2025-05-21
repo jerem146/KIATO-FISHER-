@@ -27,18 +27,18 @@ return res.data
 console.log(`Error : ${e}`)
 }}
 
-global.creador = 'Wa.me/573154062343'
+global.creador = 'Wa.me/51944171641'
 global.ofcbot = `${conn.user.jid.split('@')[0]}`
-global.asistencia = 'Wa.me/573154062343'
-global.namechannel = '=͟͟͞❀ Destiny - 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ⏤͟͟͞͞★'
+global.asistencia = 'Wa.me/51944171641'
+global.namechannel = 'https://chat.whatsapp.com/JxV2ZeGQxmB5aeK46JiCWV'
 global.namechannel2 = '=͟͟͞❀ Destiny - 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ⏤͟͟͞͞★'
 global.namegrupo = 'ᰔᩚ Destiny • ᥆𝖿іᥴіᥲᥣ ❀'
 global.namecomu = 'ᰔᩚ Destiny • ᥴ᥆mᥙᥒі𝗍ᥡ ❀'
 global.listo = '❀ *Aquí tienes ฅ^•ﻌ•^ฅ*'
 global.fotoperfil = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://files.catbox.moe/xr2m6u.jpg')
 
-global.canalIdM = ["120363399504708103@newsletter", "120363399504708103@newsletter"]
-global.canalNombreM = ["ᰔᩚ Destiny-mძ • ᥙ⍴ძᥲ𝗍ᥱs ❀", "ᰔᩚ Destiny-mძ • ᥲ᥎іs᥆s ❀"]
+global.canalIdM = ["", ""]
+global.canalNombreM = [""]
 global.channelRD = await getRandomChannel()
 
 global.d = new Date(new Date + 3600000)
@@ -66,7 +66,7 @@ global.waitt = '❍ Espera un momento, soy lenta...';
 global.waittt = '❍ Espera un momento, soy lenta...';
 global.waitttt = '❍ Espera un momento, soy lenta...';
 
-var canal = 'https://whatsapp.com/channel/0029Vb6AROo1noyzTUiHdh1n'  
+var canal = 'https://whatsapp.com/channel/0029VbADBSTEawdmbuNz9p1d'  
 var comunidad = 'https://chat.whatsapp.com/Ekf7Ge36AthIUiCGIdRHR2'
 var git = 'https://github.com/https0J'
 var github = 'https://github.com/https0J/Destiny-Bot' 
