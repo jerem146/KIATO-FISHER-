@@ -31,7 +31,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
 
     // Enviar mensaje de aviso sin citar el mensaje original
     await conn.sendMessage(m.chat, {
-      text: `> ✦ ${user} ha sido eliminado por enviar enlaces prohibidos.`,
+      text: ` ${user} ha sido eliminado por enviar enlaces prohibidos.`,
       mentions: [m.sender]
     });
   }
