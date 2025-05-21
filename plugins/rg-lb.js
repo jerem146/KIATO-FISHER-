@@ -1,8 +1,8 @@
 //let handler = async (m, { conn, args, participants, usedPrefix, command }) => {
-    if (!args[0]) throw `✦ Escribe una categoría.\n\nEjemplo:\n> *${usedPrefix + command} gay*`
+    //if (!args[0]) throw `✦ Escribe una categoría.\n\nEjemplo:\n> *${usedPrefix + command} gay*`
 
     //let categoria = args.join(" ").trim()
-    let miembros = participants.map(p => p.id).filter(id => !id.includes(conn.user.jid))
+    //let miembros = participants.map(p => p.id).filter(id => !id.includes(conn.user.jid))
    //let seleccionados = miembros.sort(() => Math.random() - 0.5).slice(0, 10)
 
     //if (seleccionados.length === 0) throw '✦ No hay suficientes participantes en este grupo.'
