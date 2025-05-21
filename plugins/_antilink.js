@@ -31,9 +31,9 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner, 
 
     // Enviar mensaje de aviso sin citar el mensaje original
     await conn.sendMessage(m.chat, {
-  text: `╭━━〔 *「 ANTI-LINK DETECTADO 」* 〕━━⬣
-┃ ✦ Usuario ${user} ha sido eliminado por compartir un enlace prohibido.
-╰━━━━━━━━━━━━━━━━━━━━━━⬣`,
+  text: ` ANTI-LINK DETECTADO 
+✦ Eliminad@ ${user} por antilink uwu.
+`,
   mentions: [m.sender]
 });
   }
