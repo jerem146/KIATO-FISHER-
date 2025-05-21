@@ -1,34 +1,25 @@
-let handler = async (m, { conn, args, participants }) => {
-    let users = Object.entries(global.db.data.users).map(([key, value]) => {
-        return { ...value, jid: key };
-    });
+let handler = async (m, { conn, args, participants, usedPrefix, command }) => {
+    if (!args[0]) throw `✦ Debes escribir una categoría.\n\nEjemplo:\n> *${usedPrefix + command} gay*`
 
-    let sortedLevel = users.sort((a, b) => (b.exp || 0) - (a.exp || 0));
-    let page = parseInt(args[0]) || 1;
-    let pageSize = 10;
-    let startIndex = (page - 1) * pageSize;
-    let endIndex = startIndex + pageSize;
-    
-    let totalPages = Math.ceil(sortedLevel.length / pageSize);
-    let text = `◢✨ Top de usuarios con más experiencia ✨◤\n\n`;
+    let texto = args.join(" ").trim()
+    let miembros = participants.map(p => p.id).filter(id => id !== conn.user.jid && id !== m.sender)
+    let seleccionados = miembros.sort(() => Math.random() - 0.5).slice(0, 10)
 
-    text += sortedLevel.slice(startIndex, endIndex).map(({ jid, exp, level }, i) => {
-        return `✰ ${startIndex + i + 1} » *${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]}*` +
-               `\n\t\t ❖ XP » *${exp}*  ❖ LVL » *${level}*`;
-    }).join('\n');
+    let mensaje = `✦ 𝗧𝗢𝗣 𝗗𝗘 *${texto.toUpperCase()}*\n\n`
+    seleccionados.forEach((id, index) => {
+        mensaje += `*${index + 1}.* @${id.split("@")[0]}\n`
+    })
 
-    text += `\n\n> • Página *${page}* de *${totalPages}*`;
-    if (page < totalPages) text += `\n> Para ver la siguiente página » *#lb ${page + 1}*`;
-
-    await conn.reply(m.chat, text.trim(), m, { mentions: conn.parseMention(text) });
+    await conn.sendMessage(m.chat, {
+        text: mensaje.trim(),
+        mentions: seleccionados
+    }, { quoted: m })
 }
 
-handler.help = ['lb'];
-handler.tags = ['rpg'];
-handler.command = ['lboard', 'top', 'lb']; 
-handler.group = true;
-handler.register = false; // <-- Corregido
-handler.fail = null;
-handler.exp = 0;
+handler.help = ['top <texto>']
+handler.tags = ['fun']
+handler.command = ['top']
+handler.group = true
+handler.register = false
 
-export default handler;
+export default handler
