@@ -66,12 +66,12 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 const waitForDownload = async (id) => {
-  for (let i = 0; i < 20; i++) { // máximo ~10s de espera
+  for (let i = 0; i < 20; i++) {
     try {
       const { data } = await axios.get(`${API_URL}/progress.php`, { params: { id } });
       if (data?.success && data.progress === 1000) return data.download_url;
     } catch (e) {}
-    await new Promise(r => setTimeout(r, 500)); // espera 0.5s (más rápido)
+    await new Promise(r => setTimeout(r, 500));
   }
   throw new Error('⏳ Tiempo de espera agotado para la descarga.');
 };
@@ -79,6 +79,5 @@ const waitForDownload = async (id) => {
 handler.help = ['play4'];
 handler.command = ['play4'];
 handler.tags = ['música'];
-handler.register = true;
 
 export default handler;
