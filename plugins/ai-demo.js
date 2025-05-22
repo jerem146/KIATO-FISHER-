@@ -1,24 +1,19 @@
-import axios from "axios";
+import { randomBytes } from "crypto"
+import axios from "axios"
 
 let handler = async (m, { conn, text }) => {
-    if (!text) throw '❓ ¿Qué deseas preguntarme?';
-
+    if (!text) throw `${emoji} ¿Cómo puedo ayudarte hoy?`;
     try {
+        conn.reply(m.chat, m);
         let data = await chatGpt(text);
-
-        if (!data || typeof data !== 'string' || data.trim().length === 0) {
-            throw new Error("No se recibió una respuesta válida.");
-        }
-
         await conn.sendMessage(m.chat, { 
-            text: '*Respuesta AI:*\n' + data.trim()
+            text: '*Demo:* ' + data
         }, { quoted: m });
 
     } catch (err) {
-        console.error(err);
-        m.reply('Ocurrió un error al obtener la respuesta. Intenta más tarde.');
+        m.reply('error cik:/ ' + err);
     }
-};
+}
 
 handler.help = ['demo *<texto>*'];
 handler.command = ['demo', 'openai'];
@@ -29,40 +24,25 @@ export default handler;
 
 async function chatGpt(query) {
     try {
-        const { id_ } = (await axios.post(
-            "https://chat.chatgptdemo.net/new_chat",
-            { user_id: "crqryjoto2h3nlzsg" },
-            { headers: { "Content-Type": "application/json" } }
-        )).data;
+        const { id_ } = (await axios.post("https://chat.chatgptdemo.net/new_chat", { user_id: "crqryjoto2h3nlzsg" }, { headers: { "Content-Type": "application/json" } })).data;
 
-        const json = {
-            question: query,
-            chat_id: id_,
-            timestamp: new Date().getTime()
-        };
+        const json = { "question": query, "chat_id": id_, "timestamp": new Date().getTime() };
 
-        const { data } = await axios.post(
-            "https://chat.chatgptdemo.net/chat_api_stream",
-            json,
-            { headers: { "Content-Type": "application/json" } }
-        );
+        const { data } = await axios.post("https://chat.chatgptdemo.net/chat_api_stream", json, { headers: { "Content-Type": "application/json" } });
+        const cek = data.split("data: ");
 
-        const chunks = data.split("data: ");
         let res = [];
 
-        for (let i = 1; i < chunks.length; i++) {
-            const trimmed = chunks[i].trim();
-            if (trimmed.length > 0) {
-                const parsed = JSON.parse(trimmed);
-                const content = parsed?.choices?.[0]?.delta?.content;
-                if (content) res.push(content);
+        for (let i = 1; i < cek.length; i++) {
+            if (cek[i].trim().length > 0) {
+                res.push(JSON.parse(cek[i].trim()));
             }
         }
 
-        return res.join("").trim();
+        return res.map((a) => a.choices[0].delta.content).join("");
 
     } catch (error) {
-        console.error("Error en chatGpt:", error);
-        throw new Error("Fallo la conexión con el servicio AI.");
+        console.error("Error parsing JSON:", error);
+        return 404;
     }
 }
