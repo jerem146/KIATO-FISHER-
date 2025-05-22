@@ -50,6 +50,6 @@ handler.help = ['gitclone *<url git>*'];
 handler.tags = ['descargas'];
 handler.command = ['gitclone'];
 handler.group = true;
-handler.coin = 3;
+handler.coin = 0;
 
 export default handler;
