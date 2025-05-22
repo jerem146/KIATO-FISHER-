@@ -1,32 +1,26 @@
 import axios from "axios";
 
-const emoji = '🤖';
-
-// Palabras que activan al bot si las contiene el mensaje
-const palabrasClave = ['bot', 'asistente', 'chatgpt', 'gpt', 'ia'];
-const saludos = ['hola', 'buenas', 'saludos', 'hey', 'holi', 'hello', 'qué tal'];
+const emoji = '💬'; // Puedes cambiarlo por uno más amigable si deseas
 
 let handler = async (m, { conn }) => {
-    if (!m.isGroup || m.fromMe || m.key.fromMe || m.message?.protocolMessage) return;
+    if (!m.isGroup || m.fromMe || m.message?.protocolMessage) return;
 
-    const text = m.text?.toLowerCase() || '';
-    if (!text || text.length < 2) return;
-
-    const mencionado = m.mentionedJid?.includes(conn.user.jid);
-    const contienePalabraClave = palabrasClave.some(p => text.includes(p));
-    const comienzaConSaludo = saludos.some(s => text.startsWith(s));
+    // Verifica si están respondiendo a un mensaje del bot
     const respondeAlBot = m.quoted?.sender === conn.user.jid;
+    if (!respondeAlBot) return;
 
-    if (!(mencionado || contienePalabraClave || comienzaConSaludo || respondeAlBot)) return;
+    const contenido = getContenidoMensaje(m);
+    if (!contenido || contenido.length < 1) return;
 
     try {
         conn.sendPresenceUpdate('composing', m.chat);
-        const respuesta = await chatGpt(text);
+        const respuesta = await chatGptConversacional(contenido);
         await conn.sendMessage(m.chat, {
             text: `*${emoji} ${respuesta.trim()}*`
         }, { quoted: m });
-    } catch (err) {
-        console.error("Error al generar respuesta:", err);
+    } catch (e) {
+        console.error("Error al responder conversacionalmente:", e);
+        await conn.sendMessage(m.chat, { text: "Ups, algo salió mal al intentar responder." }, { quoted: m });
     }
 };
 
@@ -36,8 +30,21 @@ handler.group = true;
 
 export default handler;
 
-// Llamada a la API externa (chat.chatgptdemo.net)
-async function chatGpt(query) {
+// Extrae texto de diferentes tipos de mensajes
+function getContenidoMensaje(m) {
+    const msg = m.message || {};
+    if (msg.conversation) return msg.conversation;
+    if (msg.extendedTextMessage) return msg.extendedTextMessage.text;
+    if (msg.imageMessage) return msg.imageMessage.caption || '[imagen]';
+    if (msg.videoMessage) return msg.videoMessage.caption || '[video]';
+    if (msg.stickerMessage) return '[sticker]';
+    if (msg.audioMessage) return '[audio]';
+    if (msg.documentMessage) return '[documento]';
+    return '';
+}
+
+// Estilo conversacional
+async function chatGptConversacional(input) {
     try {
         const { id_ } = (await axios.post("https://chat.chatgptdemo.net/new_chat", {
             user_id: "crqryjoto2h3nlzsg"
@@ -46,7 +53,7 @@ async function chatGpt(query) {
         })).data;
 
         const json = {
-            question: query,
+            question: `Quiero que respondas como si fueras un amigo amable que conversa con naturalidad. Me acaban de decir o enviar esto: "${input}". ¿Qué responderías tú como una persona real?`,
             chat_id: id_,
             timestamp: new Date().getTime()
         };
@@ -57,10 +64,8 @@ async function chatGpt(query) {
 
         const partes = data.split("data: ").filter(p => p.trim());
         const respuestas = partes.map(p => JSON.parse(p.trim()));
-        return respuestas.map(r => r.choices[0].delta.content).join("");
-
-    } catch (error) {
-        console.error("Error en chatGpt:", error);
-        return "Disculpa, no pude responder en este momento.";
+        return respuestas.map(r => r.choices[0].delta.content).join("") || "¿Me puedes repetir eso?";
+    } catch (e) {
+        return "Lo siento, no entendí bien eso. ¿Puedes decirlo de otra forma?";
     }
 }
