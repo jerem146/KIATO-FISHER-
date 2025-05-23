@@ -108,11 +108,6 @@ npm start
 <details>
  <summary><b> 🜸 Enlaces Oficiales </b></summary>
 
- * Canal Oficial  [`¡Click aquí!`](https://whatsapp.com/channel/0029Vb6AROo1noyzTUiHdh1n)
-* Grupo Oficial [`¡Click aquí!`](https://chat.whatsapp.com/Jc50f6PaKfCKvhoQprhMCR)
-* Comunidad Oficial [`¡Click aquí!`](https://chat.whatsapp.com/Ekf7Ge36AthIUiCGIdRHR2)
-</details>
-
 <details>
 <summary><b> ✰ Contáctos</b></summary>
 
