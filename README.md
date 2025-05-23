@@ -129,9 +129,6 @@ npm start
 </a>
 
 ### **`ᥫ᭡ Propietario`**
-<a
-href="https://github.com/https0J"><img src="https://github.com/https0J.png" width="130" height="130" alt="
-https0J"/></a>
 
 ### **`🜸 Créditos`**
 <a
